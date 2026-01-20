@@ -36,9 +36,32 @@ deployment/.terraform.tfstate.lock.info
 deployment/.terraformrc
 deployment/terraform.rc
 
-
-# Lambda .zips, node_modules
-src/lambda/*/*.zip
-src/lambda/*/node_modules
-
 *.env
+
+
+# From vite .gitignore
+
+# Logs
+/src/s3/*/logs
+/src/s3/*/*.log
+/src/s3/*/npm-debug.log*
+/src/s3/*/yarn-debug.log*
+/src/s3/*/yarn-error.log*
+/src/s3/*/pnpm-debug.log*
+/src/s3/*/lerna-debug.log*
+
+/src/s3/*/node_modules
+/src/s3/*/dist
+/src/s3/*/dist-ssr
+/src/s3/*/*.local
+
+# Editor directories and files
+/src/s3/*/.vscode/*
+/src/s3/*/!.vscode/extensions.json
+/src/s3/*/.idea
+/src/s3/*/.DS_Store
+/src/s3/*/*.suo
+/src/s3/*/*.ntvs*
+/src/s3/*/*.njsproj
+/src/s3/*/*.sln
+/src/s3/*/*.sw?
