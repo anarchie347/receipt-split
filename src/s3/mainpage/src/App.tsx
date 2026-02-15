@@ -30,7 +30,4 @@ const TEST_GROUPS: Group[] = [
   { name: "Joe", symbol: "J", members: ["Joe"] },
   { name: "Pete", symbol: "P", members: ["Pete"] },
   { name: "Group", symbol: "G", members: ["Joe", "Pete"] },
-  { name: "Group", symbol: "G", members: ["Joe", "Pete"] },
-  { name: "Group", symbol: "G", members: ["Joe", "Pete"] },
-  { name: "Group", symbol: "G", members: ["Joe", "Pete"] },
 ];
