@@ -4,7 +4,9 @@ import { SplitterPage, type Group, type Item } from "./SplitterPage";
 function App() {
   return (
     <>
-      <SplitterPage items={TEST_ITEMS} groups={TEST_GROUPS} />
+      <div className="bg-zinc-800 h-full">
+        <SplitterPage items={TEST_ITEMS} groups={TEST_GROUPS} />
+      </div>
     </>
   );
   // return (

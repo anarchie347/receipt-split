@@ -1,10 +1,16 @@
 import { useState } from "react";
-import type { Group, Item } from "./SplitterPage";
+import type { Group, Item, Split } from "./SplitterPage";
 
-export function SplitterCard({ item, groups }: SplitterRowProps) {
+export function SplitterCard({ item, groups, adjustSplit }: SplitterRowProps) {
   const [localCounts, setLocalCounts] = useState(groups.map((_) => 0));
-  const incrAt = (i: number) =>
-    setLocalCounts((old) => old.map((ov, oi) => (oi === i ? ov + 1 : ov)));
+  const incrAt = (index: number) => {
+    const split: Split = groups.map((g, i) => ({
+      shares: localCounts[i] + (i === index ? 1 : 0),
+      group: g,
+    }));
+    setLocalCounts((old) => old.map((ov, oi) => (oi === index ? ov + 1 : ov)));
+    adjustSplit(split);
+  };
   return (
     <div className=" p-2 bg-zinc-700 rounded-xl">
       <div className="flex items-center">
@@ -62,6 +68,7 @@ function ZeroButton({ zeroFunc }: ZeroButtonProps) {
 export type SplitterRowProps = {
   item: Item;
   groups: Group[];
+  adjustSplit: (s: Split) => void;
 };
 
 type SplitButtonProps = {
