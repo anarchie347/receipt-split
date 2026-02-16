@@ -1,14 +1,14 @@
-import { SplitterRow } from "./SplitterRow";
+import { SplitterCard, SplitterCardDivider } from "./SplitterCard";
 
 export function SplitterPage({ items, groups }: SplitterPageProps) {
   return (
     <>
-      <div
-        className=" grid gap-2 bg-zinc-800 "
-        style={{ gridTemplateColumns: `1fr ${" auto".repeat(groups.length)}` }}
-      >
-        {items.map((i) => (
-          <SplitterRow item={i} groups={groups} />
+      <div className=" bg-zinc-800 p-1">
+        {items.map((i, index) => (
+          <>
+            <SplitterCard item={i} groups={groups} />
+            {index < items.length - 1 && <SplitterCardDivider />}
+          </>
         ))}
       </div>
     </>
