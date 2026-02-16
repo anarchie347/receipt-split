@@ -8,7 +8,12 @@ export function SplitterCard({ item, groups }: SplitterRowProps) {
   return (
     <div className=" p-2 bg-zinc-700 rounded-xl">
       <div className="flex items-center">
-        <div className="flex-1 text-center text-zinc-200">{item.name}</div>
+        <div className="flex-1 text-left pl-5 text-zinc-200 text-xl">
+          {item.name}
+        </div>
+        <div className="flex-1 text-right pr-5 text-zinc-200">
+          £{item.price}
+        </div>
       </div>
       <div className="flex gap-2 p-1 content-center align-middle justify-center">
         {groups.map((g, i) => (
@@ -48,7 +53,7 @@ function ZeroButton({ zeroFunc }: ZeroButtonProps) {
         className=" rounded-xl bg-red-500 p-1 pl-2 pr-2 text-zinc-100"
         onClick={zeroFunc}
       >
-        X<sub></sub>
+        ✘<sub></sub>
       </button>
     </div>
   );
