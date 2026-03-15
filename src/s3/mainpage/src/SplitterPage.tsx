@@ -1,17 +1,22 @@
 import { useRef } from "react";
 import { SplitterCard, SplitterCardDivider } from "./SplitterCard";
+import { objMap } from "./utils";
 
 export function SplitterPage({ items, groups }: SplitterPageProps) {
-  const fullSplit = useRef([] as Split[]);
+  const mkEmptyShares: () => Shares = () => objMap(groups, (gn, _) => [gn, 0]);
+  const itemsSplit = useRef<ItemSplit[]>(
+    items.map((i) => ({ shares: mkEmptyShares(), ...i })),
+  );
+
   return (
     <div>
       <div className=" p-1">
-        {items.map((item, index) => (
+        {items.map((itemOnly, index) => (
           <>
             <SplitterCard
-              item={item}
+              itemOnly={itemOnly}
               groups={groups}
-              adjustSplit={(s) => (fullSplit.current[index] = s)}
+              adjustShares={(s) => (itemsSplit.current[index].shares = s)}
             />
             {index < items.length - 1 && <SplitterCardDivider />}
           </>
@@ -20,34 +25,36 @@ export function SplitterPage({ items, groups }: SplitterPageProps) {
       <div className="p-1">
         <div className="p-2 bg-indigo-600 rounded-xl">
           <h3 className="pl-5 text-zinc-200 text-xl">Splits</h3>
-          {fullSplit.current}
+          RESULT
         </div>
       </div>
     </div>
   );
 }
 
-function processSplit(items: Item[], splits: Split[], groups: Group[]) {
+function processSplit(items: ItemSplit[], groups: Groups) {
   const debtsByPerson: { [person: string]: number } = {};
-
   for (const item of items) {
-    for (const split of splits) 
   }
 }
 
 export type SplitterPageProps = {
-  items: Item[];
-  groups: Group[];
+  items: ItemOnly[];
+  groups: Groups;
 };
-export type Item = {
+
+export type ItemOnly = {
   name: string;
   price: number;
 };
-export type Group = {
-  name: string;
+export type ItemSplit = ItemOnly & { shares: Shares };
+
+export type Groups = {
+  [groupName: string]: GroupData;
+};
+export type GroupData = {
   symbol: string;
-  members: string[];
-  memberShares: number[];
+  memberShares: { [name: string]: number };
 };
 
-export type Split = { shares: number; group: Group }[];
+export type Shares = { [groupName: string]: number };
