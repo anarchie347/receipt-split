@@ -1,5 +1,5 @@
 import "./App.css";
-import { SplitterPage, type Group, type Item } from "./SplitterPage";
+import { SplitterPage, type Groups, type ItemOnly } from "./SplitterPage";
 
 function App() {
   return (
@@ -9,37 +9,23 @@ function App() {
       </div>
     </>
   );
-  // return (
-  //   <>
-  //     <p>Hello world</p>
-  //     <input
-  //       type="file"
-  //       accept="image/*"
-  //       capture="environment"
-  //       onChange={(e) => {
-  //         const f = e.target.files![0];
-  //         console.log(f);
-  //       }}
-  //     />
-  //   </>
-  // );
 }
 
 export default App;
 
-const TEST_ITEMS: Item[] = [
+const TEST_ITEMS: ItemOnly[] = [
   { name: "Yoghurt", price: 1 },
   { name: "Eggs", price: 1.94 },
   { name: "Milk", price: 1.4 },
 ];
-const TEST_GROUPS: Group[] = [
-  { name: "Joe", symbol: "J", members: ["Joe"] },
-  { name: "Pete", symbol: "P", members: ["Pete"] },
-  { name: "Group", symbol: "G", members: ["Joe", "Pete"] },
-  { name: "Joe", symbol: "J", members: ["Joe"] },
-  { name: "Pete", symbol: "P", members: ["Pete"] },
-  { name: "Group", symbol: "G", members: ["Joe", "Pete"] },
-  { name: "Joe", symbol: "J", members: ["Joe"] },
-];
+const TEST_GROUPS: Groups = {
+  Joe: { symbol: "J", memberShares: { Joe: 1 } },
+  Pete: { symbol: "Pe", memberShares: { Pete: 1 } },
+  Phil: { symbol: "Ph", memberShares: { Phil: 1 } },
+  Steve: { symbol: "S", memberShares: { Steve: 1 } },
+  Group: { symbol: "G", memberShares: { Joe: 1, Pete: 1, Phil: 1, Steve: 1 } },
+  Tobi: { symbol: "T", memberShares: { Tobi: 1 } },
+  Bob: { symbol: "B", memberShares: { Bob: 1 } },
+};
 
 // j,n,a,g,m,e,b

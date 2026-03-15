@@ -32,7 +32,7 @@ export function SplitterCard({
         {Object.entries(groups).map(([gn, gd], i) => (
           <SplitButton
             symbol={gd.symbol}
-            count={localCounts[i]}
+            count={localCounts[gn]}
             incrFunc={() => incrAt(gn)}
             key={i}
           />
