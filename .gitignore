@@ -65,3 +65,6 @@ deployment/terraform.rc
 /src/s3/*/*.njsproj
 /src/s3/*/*.sln
 /src/s3/*/*.sw?
+
+
+**/node_modules
