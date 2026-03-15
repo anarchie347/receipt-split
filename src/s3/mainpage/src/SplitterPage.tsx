@@ -17,6 +17,7 @@ export function SplitterPage({ items, groups }: SplitterPageProps) {
               itemOnly={itemOnly}
               groups={groups}
               adjustShares={(s) => (itemsSplit.current[index].shares = s)}
+              key={index}
             />
             {index < items.length - 1 && <SplitterCardDivider />}
           </>

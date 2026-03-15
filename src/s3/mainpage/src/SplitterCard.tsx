@@ -34,6 +34,7 @@ export function SplitterCard({
             symbol={gd.symbol}
             count={localCounts[i]}
             incrFunc={() => incrAt(gn)}
+            key={i}
           />
         ))}
         <ZeroButton
