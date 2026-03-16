@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { ResultsCard } from "./ResultsCard";
 import { SplitterCard, SplitterCardDivider } from "./SplitterCard";
 import {
   approxInt,
@@ -13,6 +14,7 @@ export function SplitterPage({ items, groups }: SplitterPageProps) {
   const itemsSplit = useRef<ItemSplit[]>(
     items.map((i) => ({ shares: mkEmptyShares(), ...i })),
   );
+  const [debts, setDebts] = useState<{ [person: string]: number }>({});
 
   return (
     <div>
@@ -24,7 +26,8 @@ export function SplitterPage({ items, groups }: SplitterPageProps) {
               groups={groups}
               adjustShares={(s) => {
                 itemsSplit.current[index].shares = s;
-                processSplit(itemsSplit.current, groups);
+                const newDebts = processSplit(itemsSplit.current, groups);
+                setDebts(newDebts);
               }}
               key={index}
             />
@@ -35,7 +38,7 @@ export function SplitterPage({ items, groups }: SplitterPageProps) {
       <div className="p-1">
         <div className="p-2 bg-indigo-600 rounded-xl">
           <h3 className="pl-5 text-zinc-200 text-xl">Splits</h3>
-          RESULT
+          <ResultsCard debts={debts} />
         </div>
       </div>
     </div>
