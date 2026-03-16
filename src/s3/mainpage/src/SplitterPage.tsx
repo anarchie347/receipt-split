@@ -1,6 +1,12 @@
 import { useRef } from "react";
 import { SplitterCard, SplitterCardDivider } from "./SplitterCard";
-import { objMap } from "./utils";
+import {
+  approxInt,
+  objMap,
+  objMapVals,
+  objMerge,
+  weightedRandChoice,
+} from "./utils";
 
 export function SplitterPage({ items, groups }: SplitterPageProps) {
   const mkEmptyShares: () => Shares = () => objMap(groups, (gn, _) => [gn, 0]);
@@ -16,7 +22,10 @@ export function SplitterPage({ items, groups }: SplitterPageProps) {
             <SplitterCard
               itemOnly={itemOnly}
               groups={groups}
-              adjustShares={(s) => (itemsSplit.current[index].shares = s)}
+              adjustShares={(s) => {
+                itemsSplit.current[index].shares = s;
+                processSplit(itemsSplit.current, groups);
+              }}
               key={index}
             />
             {index < items.length - 1 && <SplitterCardDivider />}
@@ -34,9 +43,67 @@ export function SplitterPage({ items, groups }: SplitterPageProps) {
 }
 
 function processSplit(items: ItemSplit[], groups: Groups) {
-  const debtsByPerson: { [person: string]: number } = {};
+  let debtsByPerson: { [person: string]: number } = {};
   for (const item of items) {
+    const shares = item.shares;
+    const allShareCnt = Object.values(shares).reduce((t, c) => t + c, 0);
+    const proportions = {} as { [person: string]: number };
+
+    // if no shares specified, dont split
+    if (allShareCnt == 0) continue;
+
+    for (const groupName in groups) {
+      const grpShareCnt = shares[groupName];
+      const grpProp = grpShareCnt / allShareCnt;
+      const memberShares = groups[groupName].memberShares;
+      const grpInternalShareCnt = Object.values(memberShares).reduce(
+        (t, c) => t + c,
+        0,
+      );
+      for (const person in memberShares) {
+        const indivShareCnt = memberShares[person];
+        const indivProp = grpProp * (indivShareCnt / grpInternalShareCnt);
+        proportions[person] = (proportions[person] ?? 0) + indivProp;
+      }
+    }
+    // now `proportions` contains fractions for each individual person for this item.
+    const debts = propsToMoney(proportions, item.price);
+    debtsByPerson = objMerge(debtsByPerson, debts, (x, y) => x + y);
   }
+  return debtsByPerson;
+}
+
+/**
+ *
+ * @param proportions Converts proportional splits to actual monetary amounts, randmonly distributing fractional pennies
+ * @param price
+ */
+function propsToMoney(
+  proportions: { [person: string]: number },
+  price: number,
+) {
+  const pennyPrice = price * 100;
+
+  const withFractionalPennies = objMapVals(proportions, (v) => v * pennyPrice);
+  const fractionalPennies = objMapVals(withFractionalPennies, (v) => v % 1);
+  const intPennies = objMapVals(withFractionalPennies, Math.floor);
+  const totalFractionalPennies = Object.values(fractionalPennies).reduce(
+    (t, c) => t + c,
+    0,
+  );
+
+  //distribute partial pennies randomly
+  const roundedFracPennies = approxInt(totalFractionalPennies); // resolve rounding errors
+  if (roundedFracPennies === false)
+    throw "Not an int number of pennies to distribute";
+  for (let i = 0; i < roundedFracPennies; i++) {
+    const person = weightedRandChoice(fractionalPennies);
+    intPennies[person]++;
+  }
+
+  //convert back to pounds
+  const inPounds = objMapVals(intPennies, (x) => x * 100);
+  return inPounds;
 }
 
 export type SplitterPageProps = {
