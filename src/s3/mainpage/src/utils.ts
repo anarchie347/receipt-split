@@ -11,6 +11,13 @@ export function objMapVals<TVal, TValRet>(
   return objMap(obj, (k, v) => [k, func(v)]);
 }
 
+export function objMapResultsArr<TVal, TValRet>(
+  obj: { [key: string]: TVal },
+  func: (key: string, val: TVal) => TValRet,
+) {
+  return Object.entries(obj).map(([k, v]) => func(k, v));
+}
+
 export function objAllVals<TVal>(
   obj: { [key: string]: TVal },
   func: (val: TVal) => boolean,
@@ -36,7 +43,7 @@ export function objMerge<T>(
 
 export function approxInt(x: number, epsilon: number = 1e-7): false | number {
   const rounded = Math.round(x);
-  if (Math.abs(rounded - x) < epsilon) {
+  if (Math.abs(rounded - x) > epsilon) {
     return false;
   }
   return rounded;
