@@ -99,8 +99,12 @@ function propsToMoney(
   const roundedFracPennies = approxInt(totalFractionalPennies); // resolve rounding errors
   if (roundedFracPennies === false)
     throw "Not an int number of pennies to distribute";
+  const randPennyWeights = objMapVals(
+    fractionalPennies,
+    (x) => x / roundedFracPennies,
+  ); // normalise into probability mass function for penny distribution
   for (let i = 0; i < roundedFracPennies; i++) {
-    const person = weightedRandChoice(fractionalPennies);
+    const person = weightedRandChoice(randPennyWeights);
     intPennies[person]++;
   }
 

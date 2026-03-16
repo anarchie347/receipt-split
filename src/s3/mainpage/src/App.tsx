@@ -23,7 +23,7 @@ const TEST_GROUPS: Groups = {
   Pete: { symbol: "Pe", memberShares: { Pete: 1 } },
   Phil: { symbol: "Ph", memberShares: { Phil: 1 } },
   Steve: { symbol: "S", memberShares: { Steve: 1 } },
-  Group: { symbol: "G", memberShares: { Joe: 1, Pete: 1, Phil: 1, Steve: 1 } },
+  Group: { symbol: "G", memberShares: { Joe: 2, Pete: 1, Phil: 1, Steve: 1 } },
   Tobi: { symbol: "T", memberShares: { Tobi: 1 } },
   Bob: { symbol: "B", memberShares: { Bob: 1 } },
 };
