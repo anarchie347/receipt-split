@@ -105,7 +105,7 @@ function propsToMoney(
   }
 
   //convert back to pounds
-  const inPounds = objMapVals(intPennies, (x) => x * 100);
+  const inPounds = objMapVals(intPennies, (x) => x / 100);
   return inPounds;
 }
 
