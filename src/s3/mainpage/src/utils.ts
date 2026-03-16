@@ -10,14 +10,6 @@ export function objMapVals<TVal, TValRet>(
 ) {
   return objMap(obj, (k, v) => [k, func(v)]);
 }
-
-export function objMapResultsArr<TVal, TValRet>(
-  obj: { [key: string]: TVal },
-  func: (key: string, val: TVal) => TValRet,
-) {
-  return Object.entries(obj).map(([k, v]) => func(k, v));
-}
-
 export function objAllVals<TVal>(
   obj: { [key: string]: TVal },
   func: (val: TVal) => boolean,
