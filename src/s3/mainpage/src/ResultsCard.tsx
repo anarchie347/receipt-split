@@ -3,7 +3,7 @@ export function ResultsCard({ debts }: ResultsCardProps) {
     <>
       {Object.entries(debts).map(([p, d], i) => (
         <div key={i}>
-          {p}:{d}
+          {p}: £{d}
         </div>
       ))}
     </>
