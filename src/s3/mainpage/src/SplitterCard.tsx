@@ -18,6 +18,11 @@ export function SplitterCard({
     adjustShares(newShares);
     setLocalCounts(newShares);
   };
+  const zeroFunc = () => {
+    const zeroed = objMapVals(localCounts, (_) => 0);
+    setLocalCounts(zeroed);
+    adjustShares(zeroed);
+  };
   return (
     <div className=" p-2 bg-zinc-700 rounded-xl">
       <div className="flex items-center">
@@ -37,9 +42,7 @@ export function SplitterCard({
             key={i}
           />
         ))}
-        <ZeroButton
-          zeroFunc={() => setLocalCounts(objMapVals(localCounts, (_) => 0))}
-        />
+        <ZeroButton zeroFunc={zeroFunc} />
       </div>
     </div>
   );
