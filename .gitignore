@@ -68,3 +68,5 @@ deployment/terraform.rc
 
 
 **/node_modules
+
+src/lambda/webserver/sampleresponses/*
