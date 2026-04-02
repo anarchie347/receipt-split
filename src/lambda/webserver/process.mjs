@@ -36,6 +36,17 @@ function tmp_getImgBase64() {
     const b64Img = imgBuff.toString("base64");
     return b64Img;
 }
-function extract(data) { }
+function extract(data) {
+    const items = data.line_items;
+    const itemsMinimal = items.map(({ description, total }) => ({
+        name: description,
+        price: total,
+    }));
+    const total = data.total.value;
+    const addedPrices = itemsMinimal.reduce((t, i) => t + i.price, 0);
+    if (total != addedPrices)
+        throw `Reciept reading error: prices did not add up to total. Prices : ${addedPrices}, Total: ${total}`;
+    return itemsMinimal;
+}
 const resp = await mock_sendImgToApi(tmp_getImgBase64());
-console.log(resp);
+console.log(extract(resp));

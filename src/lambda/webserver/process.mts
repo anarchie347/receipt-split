@@ -44,11 +44,26 @@ function tmp_getImgBase64() {
   return b64Img;
 }
 
-function extract(data: unknown) {}
+function extract(data: any) {
+  // uses sample1.2.json as schema, inlcudes confidence details (however this method doesnt use)
+  const items: any[] = data.line_items;
+  const itemsMinimal = items.map(({ description, total }) => ({
+    name: description as string,
+    price: total as number,
+  }));
+  const total: number = data.total.value;
+  // check total = sum(prices)
+  const addedPrices = itemsMinimal.reduce((t, i) => t + i.price, 0);
+
+  if (Math.abs(total - addedPrices) < 0.01)
+    //account for float pt arithmetic errors
+    throw `Reciept reading error: prices did not add up to total. Prices : ${addedPrices}, Total: ${total}`;
+  return itemsMinimal;
+}
 
 const resp = await mock_sendImgToApi(tmp_getImgBase64());
 // fs.writeFileSync(
 //   "sampleresponses/sample1.2.json",
 //   JSON.stringify(resp, null, 2),
 // );
-console.log(resp);
+console.log(extract(resp));
