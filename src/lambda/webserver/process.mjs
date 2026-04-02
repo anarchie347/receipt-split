@@ -7,7 +7,12 @@ async function sendImgToApi(base64Img) {
     if (!CLIENT_ID || !AUTHORIZATION) {
         throw "Missing required environment variables `CLIENT_ID` and `AUTHORIZATION";
     }
-    const payload = JSON.stringify({ file_data: base64Img });
+    const payload = JSON.stringify({
+        file_data: base64Img,
+        country: "GB",
+        auto_delete: true,
+        confidence_details: true,
+    });
     const url = "https://api.veryfi.com/api/v8/partner/documents";
     const options = {
         method: "POST",
@@ -23,7 +28,7 @@ async function sendImgToApi(base64Img) {
     return await resp.json();
 }
 async function mock_sendImgToApi(_) {
-    const textbuff = fs.readFileSync("sampleresponses/sample1.json");
+    const textbuff = fs.readFileSync("sampleresponses/sample1.2.json");
     return JSON.parse(textbuff.toString("utf-8"));
 }
 function tmp_getImgBase64() {
@@ -31,5 +36,6 @@ function tmp_getImgBase64() {
     const b64Img = imgBuff.toString("base64");
     return b64Img;
 }
+function extract(data) { }
 const resp = await mock_sendImgToApi(tmp_getImgBase64());
 console.log(resp);
