@@ -47,10 +47,12 @@ function tmp_getImgBase64() {
 function extract(data: any) {
   // uses sample1.2.json as schema, inlcudes confidence details (however this method doesnt use)
   const items: any[] = data.line_items;
-  const itemsMinimal = items.map(({ description, total }) => ({
-    name: description as string,
-    price: total as number,
-  }));
+  const itemsMinimal = items
+    .filter(({ total }) => !!total) // only take things with price
+    .map(({ description, total }) => ({
+      name: description as string,
+      price: total as number,
+    }));
   const total: number = data.total.value;
   // check total = sum(prices)
   const addedPrices = itemsMinimal.reduce((t, i) => t + i.price, 0);
