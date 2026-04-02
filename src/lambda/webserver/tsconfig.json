@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "removeComments": true,
+    "types": ["node"],
+    "lib": ["ESNext"]
+  },
+  "files": ["process.mts"]
+}
