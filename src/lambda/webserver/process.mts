@@ -29,7 +29,9 @@ async function sendImgToApi(base64Img: string) {
     },
     body: payload,
   };
+
   const resp = await fetch(url, options);
+
   return await resp.json();
 }
 
@@ -53,13 +55,14 @@ function extract(data: any) {
       name: description as string,
       price: total as number,
     }));
-  const total: number = data.total.value;
-  // check total = sum(prices)
-  const addedPrices = itemsMinimal.reduce((t, i) => t + i.price, 0);
 
+  // check total = sum(prices)
+  const total: number = data.total.value;
+  const addedPrices = itemsMinimal.reduce((t, i) => t + i.price, 0);
   if (Math.abs(total - addedPrices) < 0.01)
     //account for float pt arithmetic errors
     throw `Reciept reading error: prices did not add up to total. Prices : ${addedPrices}, Total: ${total}`;
+
   return itemsMinimal;
 }
 
