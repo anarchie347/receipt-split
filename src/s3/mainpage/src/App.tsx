@@ -9,7 +9,11 @@ function App() {
     <>
       <div className="bg-zinc-800 h-screen w-screen">
         {page == "PhotoUpload" ? (
-          <PhotoUploadPage onSubmit={(e) => {}} />
+          <PhotoUploadPage
+            onSubmit={(e) => {
+              setPage("Split");
+            }}
+          />
         ) : (
           <SplitterPage items={TEST_ITEMS} groups={TEST_GROUPS} />
         )}
