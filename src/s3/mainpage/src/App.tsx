@@ -1,17 +1,26 @@
+import { useState } from "react";
 import "./App.css";
+import { PhotoUploadPage } from "./PhotoUploadPage";
 import { SplitterPage, type Groups, type ItemOnly } from "./SplitterPage";
 
 function App() {
+  const [page, setPage] = useState<Page>("PhotoUpload");
   return (
     <>
-      <div className="bg-zinc-800 h-full">
-        <SplitterPage items={TEST_ITEMS} groups={TEST_GROUPS} />
+      <div className="bg-zinc-800 h-screen w-screen">
+        {page == "PhotoUpload" ? (
+          <PhotoUploadPage onSubmit={(e) => {}} />
+        ) : (
+          <SplitterPage items={TEST_ITEMS} groups={TEST_GROUPS} />
+        )}
       </div>
     </>
   );
 }
 
 export default App;
+
+type Page = "PhotoUpload" | "Split";
 
 const TEST_ITEMS: ItemOnly[] = [
   { name: "Yoghurt", price: 1 },
