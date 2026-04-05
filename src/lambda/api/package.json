@@ -9,7 +9,8 @@
   "module": "esnext",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx tsc && node process.mjs"
+    "dev": "npx tsc && node process.mjs",
+    "build": "npx tsc"
   },
   "devDependencies": {
     "@types/node": "^25.5.0"

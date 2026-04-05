@@ -7,6 +7,10 @@ cd ../src/s3/mainpage
 npm run build
 cd ../../..
 
+cd ../src/lambda/api
+npm run build
+cd ../../..
+
 
 cd deployment
 sudo -E terraform "$@"
