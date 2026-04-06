@@ -5,5 +5,5 @@
     "types": ["node"],
     "lib": ["ESNext"]
   },
-  "files": ["process.mts"]
+  "files": ["api.mts"]
 }
