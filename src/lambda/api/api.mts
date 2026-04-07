@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import fs from "fs";
 
-dotenv.config();
+dotenv.config({ quiet: true }); // only intended for local testing
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const AUTHORIZATION = process.env.AUTHORIZATION;
