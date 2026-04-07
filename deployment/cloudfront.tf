@@ -9,7 +9,6 @@ resource "aws_cloudfront_origin_access_control" "s3_access" {
   signing_behavior = "always"
   signing_protocol = "sigv4"
 }
-
 resource "aws_cloudfront_distribution" "main" {
   enabled = true
   is_ipv6_enabled = true
@@ -22,7 +21,7 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   origin {
-    domain_name = aws_apigatewayv2_api.api.api_endpoint
+    domain_name = replace(aws_apigatewayv2_api.api.api_endpoint, "/^https?://([^/]*).*/", "$1") //removec http(s):// from url to get domain 
     origin_id = local.api_origin_id
     custom_origin_config {
       http_port = "80"
