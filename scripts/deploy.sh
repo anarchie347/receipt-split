@@ -1,16 +1,20 @@
 #!/bin/bash
 
-# Set cwd to ./scripts
+# Set cwd to project root
 cd "$(dirname "${BASH_SOURCE[0]}")"
+cd ..
 
-cd ../src/s3/mainpage
+# build mainpage
+cd src/s3/mainpage
 npm run build
 cd ../../..
 
-cd ../src/lambda/api
+# build api
+cd src/lambda/api
 npm run build
 cd ../../..
 
-
+# terraform
 cd deployment
-sudo -E terraform "$@"
+terraform apply "$@"
+cd ..
