@@ -57,4 +57,5 @@ resource "aws_s3_object" "name" {
   key = "public/${each.value}"
   source = "${local.upload_folder}/${each.value}"
   content_type = lookup(local.mime_types,regex("\\.[^.]+$", each.value), "application/octet-stream")
+  etag = filebase64sha256("${local.upload_folder}/${each.value}")
 }
