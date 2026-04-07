@@ -1,7 +1,7 @@
 resource "aws_lambda_function" "api" {
   function_name = "receipt-split-api"
   runtime = "nodejs22.x"
-  handler = "api.hanlder"
+  handler = "api.handler"
 
   filename = "${path.root}/../src/lambda/api/api.zip"
   source_code_hash = filebase64sha256("${path.root}/../src/lambda/api/api.zip")
