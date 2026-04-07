@@ -66,9 +66,13 @@ function extract(data: any) {
   return itemsMinimal;
 }
 
-const resp = await mock_sendImgToApi(tmp_getImgBase64());
+//const resp = await mock_sendImgToApi(tmp_getImgBase64());
 // fs.writeFileSync(
 //   "sampleresponses/sample1.2.json",
 //   JSON.stringify(resp, null, 2),
 // );
-console.log(extract(resp));
+//console.log(extract(resp));
+
+export async function handler() {
+  console.log("HELLOOOOOOOOO");
+}
