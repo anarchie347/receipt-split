@@ -9,7 +9,7 @@ resource "aws_apigatewayv2_integration" "api_lambda" {
   connection_type = "INTERNET"
   description = "Links to API lambda"
   integration_method = "POST"
-
+  payload_format_version = "2.0"
   integration_uri = aws_lambda_function.api.invoke_arn
 }
 
