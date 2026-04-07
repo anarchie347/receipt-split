@@ -10,8 +10,9 @@ function App() {
       <div className="bg-zinc-800 h-screen w-screen">
         {page == "PhotoUpload" ? (
           <PhotoUploadPage
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               setPage("Split");
+              console.log(await fetch("/api/abcd", { method: "POST", body: e }));
             }}
           />
         ) : (

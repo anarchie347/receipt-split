@@ -12,9 +12,9 @@ function UploadBtn({ onSubmit }: UploadBtnProps) {
     if (!file) return;
     const reader = new FileReader();
 
-    reader.onloadend = () => {
+    reader.onloadend = async () => {
       const b64 = reader.result as string;
-      onSubmit(b64);
+      await onSubmit(b64);
     };
     reader.readAsDataURL(file);
   };
@@ -45,8 +45,8 @@ function UploadBtn({ onSubmit }: UploadBtnProps) {
 }
 
 export type PhotoUploadPageProps = {
-  onSubmit: (base64: string) => void;
+  onSubmit: (base64: string) => Promise<void>;
 };
 type UploadBtnProps = {
-  onSubmit: (base64: string) => void;
+  onSubmit: (base64: string) => Promise<void>;
 };
