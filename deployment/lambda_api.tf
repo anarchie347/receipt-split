@@ -21,7 +21,7 @@ resource "aws_iam_role" "lambda_api_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_api_attach_logs" {
-  role = aws_iam_role.lambda_api_role
+  role = aws_iam_role.lambda_api_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
