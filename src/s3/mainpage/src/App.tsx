@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import { PhotoUploadPage } from "./PhotoUploadPage";
 import { SplitterPage, type Groups, type ItemOnly } from "./SplitterPage";
 
 function App() {
   const [page, setPage] = useState<Page>("PhotoUpload");
+  const itemsRef = useRef<ItemOnly[]>([]);
   return (
     <>
       <div className="bg-zinc-800 h-screen w-screen">
@@ -17,13 +18,12 @@ function App() {
               });
               console.log("Resp received");
               console.log(resp);
-              const body = await resp.text();
-              console.log(body);
+              itemsRef.current = await resp.json();
               setPage("Split");
             }}
           />
         ) : (
-          <SplitterPage items={TEST_ITEMS} groups={TEST_GROUPS} />
+          <SplitterPage items={itemsRef.current} groups={TEST_GROUPS} />
         )}
       </div>
     </>
