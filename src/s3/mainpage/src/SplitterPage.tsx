@@ -35,12 +35,10 @@ export function SplitterPage({ items, groups }: SplitterPageProps) {
           </>
         ))}
       </div>
-      <div className="p-1">
-        <div className="p-2 bg-indigo-600 rounded-xl">
-          <h3 className="pl-5 text-zinc-200 text-xl">Splits</h3>
-          <ResultsCard debts={debts} />
-        </div>
-      </div>
+      <ResultsCard
+        debts={debts}
+        total={itemsSplit.current.reduce((t, c) => t + c.price, 0)}
+      />
     </div>
   );
 }
