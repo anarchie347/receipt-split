@@ -69,4 +69,4 @@ deployment/terraform.rc
 
 **/node_modules
 
-src/lambda/api/sampleresponses/*
+src/lambda/api/sampleresponses/
