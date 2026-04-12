@@ -11,7 +11,6 @@ function App() {
         {page == "PhotoUpload" ? (
           <PhotoUploadPage
             onSubmit={async (b64) => {
-              setPage("Split");
               const resp = await fetch("/api/abcd", {
                 method: "POST",
                 body: b64,
@@ -20,6 +19,7 @@ function App() {
               console.log(resp);
               const body = await resp.text();
               console.log(body);
+              setPage("Split");
             }}
           />
         ) : (
