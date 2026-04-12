@@ -35,7 +35,7 @@ async function sendImgToApi(base64Img: string) {
   return await resp.json();
 }
 
-async function mock_sendImgToApi(_: string) {
+function mock_sendImgToApi(_: string) {
   const textbuff = fs.readFileSync("sampleresponses/sample1.2.json");
   return JSON.parse(textbuff.toString("utf-8"));
 }
@@ -73,6 +73,14 @@ function extract(data: any) {
 // );
 //console.log(extract(resp));
 
-export async function handler() {
-  console.log("HELLOOOOOOOOO");
+export async function handler(event: any) {
+  console.log("INVOKED");
+  const b64 = event.body;
+  const apiResp = mock_sendImgToApi(b64);
+  console.log(apiResp);
+  const extracted = extract(apiResp);
+  return {
+    statusCode: 200,
+    body: JSON.stringify(extracted),
+  };
 }

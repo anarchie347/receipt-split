@@ -10,7 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx tsc && node process.mjs",
-    "build": "npx tsc && zip -r api.zip . -i \"*.mjs\" \"node_modules/*\""
+    "build": "npx tsc && zip -r api.zip . -i \"*.mjs\" \"node_modules/*\" \"sampleresponses/*\""
   },
   "devDependencies": {
     "@types/node": "^25.5.0"
