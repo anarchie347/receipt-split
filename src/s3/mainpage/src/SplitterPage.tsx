@@ -127,7 +127,7 @@ export type Groups = {
 };
 export type GroupData = {
   symbol: string;
-  memberShares: { [name: string]: number };
+  memberShares: Shares;
 };
 
 export type Shares = { [groupName: string]: number };
