@@ -1,8 +1,10 @@
 import { Users } from "lucide-react";
-import { useEffect } from "react";
-import type { Groups, Shares } from "./SplitterPage";
+import { useEffect, useRef } from "react";
+import type { GroupData, Groups, Shares } from "./SplitterPage";
 
 export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
+  const addGrpRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     const queryStr = window.location.search;
     const params = new URLSearchParams(queryStr);
@@ -22,6 +24,33 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
           .map(([mn, c]) => `${mn}:${c}`)
           .join(", ");
 
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+    if (!addGrpRef.current) return;
+    const input = addGrpRef.current.value;
+    try {
+      const [grpName, ...rest] = input.split(":");
+      const membersStr = rest.join(":");
+      const membersArr = membersStr.split(",");
+      const memberShares = Object.fromEntries(
+        membersArr.map((x) => [
+          x.split(":")[0],
+          Number.parseInt(x.split(":")[1]),
+        ]),
+      );
+      const grpData: GroupData = {
+        symbol: "LOREM",
+        memberShares,
+      };
+      const newGroups = { ...groups };
+      newGroups[grpName] = grpData;
+      setGroups(newGroups);
+      addGrpRef.current.value = "";
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   if (!groups) return <></>;
 
   return (
@@ -33,7 +62,7 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
       {Object.entries(groups).map(([gn, gd], i) => (
         <div
           key={i}
-          className=" text-zinc-200 text-center bg-indigo-800 rounded-2xl mx-auto px-5 my-1 py-0.5 flex opacity-90 bg-gradient-to-r from-indigo-600 to-indigo-800 transform transition duration-100 hover:scale-110 hover:shadow-2xl ease-out hover:-translate-y-0.5 cursor-pointer"
+          className=" text-zinc-200 text-center bg-indigo-800 rounded-2xl mx-auto px-5 my-1 py-0.5 flex opacity-90 bg-linear-to-r from-indigo-600 to-indigo-800 transform transition duration-100 hover:scale-110 hover:shadow-2xl ease-out hover:-translate-y-0.5 cursor-pointer"
         >
           <span className="text-left flex-1">
             {gn} ({gd.symbol}):{" "}
@@ -43,6 +72,15 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
           </span>
         </div>
       ))}
+      <div className=" text-zinc-200 text-center bg-indigo-800 rounded-2xl mx-auto px-5 my-1 py-0.5 flex opacity-90 bg-linear-to-r from-indigo-600 to-indigo-800 transform transition duration-100 hover:scale-110 hover:shadow-2xl ease-out hover:-translate-y-0.5 cursor-pointer">
+        <input
+          className=" text-shadow-zinc-200 outline-0"
+          placeholder="Add..."
+          type="text"
+          onKeyUp={handleKeyUp}
+          ref={addGrpRef}
+        />
+      </div>
     </div>
   );
 }
