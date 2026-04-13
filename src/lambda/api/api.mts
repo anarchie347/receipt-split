@@ -59,7 +59,7 @@ function extract(data: any) {
   // check total = sum(prices)
   const total: number = data.total.value;
   const addedPrices = itemsMinimal.reduce((t, i) => t + i.price, 0);
-  if (Math.abs(total - addedPrices) < 0.01)
+  if (Math.abs(total - addedPrices) > 0.01)
     //account for float pt arithmetic errors
     throw `Reciept reading error: prices did not add up to total. Prices : ${addedPrices}, Total: ${total}`;
 
@@ -67,7 +67,7 @@ function extract(data: any) {
 }
 
 async function process_image(base64: string) {
-  const apiResp = mock_sendImgToApi(base64);
+  const apiResp = await sendImgToApi(base64);
   const extracted = extract(apiResp);
   return {
     statusCode: 200,
