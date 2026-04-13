@@ -1,6 +1,13 @@
 import { CameraIcon, LoaderCircle } from "lucide-react";
 import { useRef, useState } from "react";
-export function PhotoUploadPage({ onSubmit }: PhotoUploadPageProps) {
+import { GroupSelector } from "./GroupSelector";
+import type { Groups } from "./SplitterPage";
+
+export function PhotoUploadPage({
+  onSubmit,
+  setGroups,
+  groups,
+}: PhotoUploadPageProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -13,11 +20,19 @@ export function PhotoUploadPage({ onSubmit }: PhotoUploadPageProps) {
             size={32}
           /> /*zinc-200 */
         ) : (
-          <UploadBtn
-            onSubmit={onSubmit}
-            setLoading={() => setIsLoading(true)}
-            setFinishedLoading={() => setIsLoading(false)}
-          />
+          <div className=" flex gap-10">
+            <div className="align-middle flex flex-column items-center">
+              <div className="h-fit">
+                <UploadBtn
+                  onSubmit={onSubmit}
+                  setLoading={() => setIsLoading(true)}
+                  setFinishedLoading={() => setIsLoading(false)}
+                />
+              </div>
+            </div>
+            <div className="bg-zinc-600 w-0.5 rounded-2xl "></div>
+            <GroupSelector groups={groups} setGroups={setGroups} />
+          </div>
         )}
       </div>
     </div>
@@ -56,7 +71,7 @@ function UploadBtn({
 
       <button
         onClick={handleClick}
-        className="flex items-center gap-2 px-6 py-3 rounded-2xl shadow-lg bg-linear-to-r from-violet-500 to-violet-700 text-zinc-200"
+        className="flex items-center gap-2 px-6 py-3 rounded-2xl shadow-lg bg-linear-to-r from-violet-500 to-violet-700 text-zinc-200 transform transition duration-100 hover:scale-110 hover:shadow-2xl ease-out hover:-translate-y-0.5 cursor-pointer"
         text-zinc-200
         rounded-2xl
         bg-zinc-700
@@ -70,6 +85,8 @@ function UploadBtn({
 
 export type PhotoUploadPageProps = {
   onSubmit: (base64: string) => Promise<void>;
+  setGroups: (grps: Groups) => void;
+  groups: Groups;
 };
 type UploadBtnProps = {
   onSubmit: (base64: string) => Promise<void>;

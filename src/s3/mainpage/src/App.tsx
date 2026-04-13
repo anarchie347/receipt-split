@@ -10,6 +10,7 @@ function App() {
 
   const [page, setPage] = useState<Page>("PhotoUpload");
   const itemsRef = useRef<ItemOnly[]>([]);
+  const [groups, setGroups] = useState<Groups>({});
   return (
     <>
       <div className="bg-zinc-800 h-screen w-screen">
@@ -25,9 +26,11 @@ function App() {
               itemsRef.current = await resp.json();
               setPage("Split");
             }}
+            groups={groups}
+            setGroups={setGroups}
           />
         ) : (
-          <SplitterPage items={itemsRef.current} groups={TEST_GROUPS} />
+          <SplitterPage items={itemsRef.current} groups={groups} />
         )}
       </div>
     </>
@@ -38,14 +41,14 @@ export default App;
 
 type Page = "PhotoUpload" | "Split";
 
-const TEST_GROUPS: Groups = {
-  Joe: { symbol: "J", memberShares: { Joe: 1 } },
-  Pete: { symbol: "Pe", memberShares: { Pete: 1 } },
-  Phil: { symbol: "Ph", memberShares: { Phil: 1 } },
-  Steve: { symbol: "S", memberShares: { Steve: 1 } },
-  Group: { symbol: "G", memberShares: { Joe: 2, Pete: 1, Phil: 1, Steve: 1 } },
-  Tobi: { symbol: "T", memberShares: { Tobi: 1 } },
-  Bob: { symbol: "B", memberShares: { Bob: 1 } },
-};
+// const TEST_GROUPS: Groups = {
+//   Joe: { symbol: "J", memberShares: { Joe: 1 } },
+//   Pete: { symbol: "Pe", memberShares: { Pete: 1 } },
+//   Phil: { symbol: "Ph", memberShares: { Phil: 1 } },
+//   Steve: { symbol: "S", memberShares: { Steve: 1 } },
+//   Group: { symbol: "G", memberShares: { Joe: 2, Pete: 1, Phil: 1, Steve: 1 } },
+//   Tobi: { symbol: "T", memberShares: { Tobi: 1 } },
+//   Bob: { symbol: "B", memberShares: { Bob: 1 } },
+// };
 
 // j,n,a,g,m,e,b
