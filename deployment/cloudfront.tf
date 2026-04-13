@@ -65,3 +65,7 @@ resource "aws_cloudfront_distribution" "main" {
     cloudfront_default_certificate = true
   }
 }
+
+output "url" {
+  value = aws_cloudfront_distribution.main.domain_name
+}
