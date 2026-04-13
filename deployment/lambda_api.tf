@@ -8,8 +8,13 @@ resource "aws_lambda_function" "api" {
 
   role = aws_iam_role.lambda_api_role.arn
 
+  timeout = 10
+
   environment {
-    
+    variables = {
+      "AUTHORIZATION" = var.veryfi_authorization
+      "CLIENT_ID" = var.veryfi_client_id
+    }
   }
 
 }
