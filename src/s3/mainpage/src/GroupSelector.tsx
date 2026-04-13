@@ -54,6 +54,12 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
     }
   };
 
+  const removeGroup = (gn: string) => {
+    const newGroups = { ...groups };
+    delete newGroups[gn];
+    setGroups(newGroups);
+  };
+
   if (!groups) return <></>;
 
   return (
@@ -66,6 +72,7 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
         <div
           key={i}
           className=" text-zinc-200 text-center bg-indigo-800 rounded-2xl mx-auto px-5 my-1 py-0.5 flex opacity-90 bg-linear-to-r from-indigo-600 to-indigo-800 transform transition duration-100 hover:scale-110 hover:shadow-2xl ease-out hover:-translate-y-0.5 cursor-pointer"
+          onClick={() => removeGroup(gn)}
         >
           <span className="text-left flex-1">
             {gn} ({gd.symbol}):{" "}
