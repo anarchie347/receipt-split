@@ -38,11 +38,6 @@ export default App;
 
 type Page = "PhotoUpload" | "Split";
 
-const TEST_ITEMS: ItemOnly[] = [
-  { name: "Yoghurt", price: 1 },
-  { name: "Eggs", price: 1.94 },
-  { name: "Milk", price: 1.4 },
-];
 const TEST_GROUPS: Groups = {
   Joe: { symbol: "J", memberShares: { Joe: 1 } },
   Pete: { symbol: "Pe", memberShares: { Pete: 1 } },
