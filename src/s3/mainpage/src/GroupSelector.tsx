@@ -14,6 +14,7 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
       return;
     }
     const groupsObj = JSON.parse(groupsStr);
+    fixSymbols(groupsObj);
     setGroups(groupsObj);
   }, []);
 
