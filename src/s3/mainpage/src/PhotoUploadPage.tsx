@@ -12,7 +12,7 @@ export function PhotoUploadPage({
 
   return (
     <div className=" h-full w-full flex flex-col items-center">
-      <div className=" h-full flex flex-row items-center">
+      <div className=" h-full flex flex-row justify-start pt-6 md:pt-0 md:items-center">
         {isLoading ? (
           <LoaderCircle
             color="#e4e4e7"
@@ -20,7 +20,7 @@ export function PhotoUploadPage({
             size={32}
           /> /*zinc-200 */
         ) : (
-          <div className=" flex gap-10">
+          <div className=" flex flex-col md:flex-row gap-6 md:gap-10 items-center">
             <div className="align-middle flex flex-column items-center">
               <div className="h-fit">
                 <UploadBtn
@@ -30,7 +30,7 @@ export function PhotoUploadPage({
                 />
               </div>
             </div>
-            <div className="bg-zinc-600 w-0.5 rounded-2xl "></div>
+            <div className="bg-zinc-600 rounded-2xl w-full h-0.5 md:w-0.5 md:h-auto self-stretch"></div>
             <GroupSelector groups={groups} setGroups={setGroups} />
           </div>
         )}
