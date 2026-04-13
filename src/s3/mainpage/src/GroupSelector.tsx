@@ -29,21 +29,23 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
     if (!addGrpRef.current) return;
     const input = addGrpRef.current.value;
     try {
-      const [grpName, ...rest] = input.split(":");
+      const [grpNameUntrimmed, ...rest] = input.split(":");
+      const grpName = grpNameUntrimmed.trim();
       const membersStr = rest.join(":");
       const membersArr = membersStr.split(",");
       const memberShares = Object.fromEntries(
         membersArr.map((x) => [
-          x.split(":")[0],
+          x.split(":")[0].trim(),
           Number.parseInt(x.split(":")[1]),
         ]),
       );
       const grpData: GroupData = {
-        symbol: "LOREM",
+        symbol: "placeholder",
         memberShares,
       };
       const newGroups = { ...groups };
       newGroups[grpName] = grpData;
+      fixSymbols(newGroups);
       setGroups(newGroups);
       addGrpRef.current.value = "";
     } catch (err) {
@@ -81,7 +83,51 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
           ref={addGrpRef}
         />
       </div>
+      <div className=" text-zinc-200 opacity-50 text-center">
+        Click a group to remove
+        <br></br>
+        To edit groups, add one with the same name
+        <br></br>
+        Format then example:
+        <br></br>
+        group: member1:shares1, member2:shares2
+        <br></br>
+        All: Joe:1,Pete:2
+        <br></br>
+        To add a new person, just enter the name
+      </div>
     </div>
+  );
+}
+
+function fixSymbols(grps: Groups) {
+  // make all symbols unique
+  const names = Object.keys(grps);
+  const nameSymbolMap: { [name: string]: string } = {};
+
+  // not very efficient
+  // This is fine as the number of groups will be small
+  for (const n of names) {
+    let foundKey = false;
+    for (let i = 1; i < n.length; i++) {
+      let countMatched = 0;
+      const possKey = n.substring(0, i);
+
+      for (const m of names) {
+        if (m.startsWith(possKey)) countMatched++;
+      }
+
+      if (countMatched === 1) {
+        nameSymbolMap[n] = possKey;
+        foundKey = true;
+        break;
+      }
+    }
+
+    if (!foundKey) nameSymbolMap[n] = n; // This name is a substring of another group name, so the symbol must be the whole name
+  }
+  Object.entries(nameSymbolMap).forEach(
+    ([name, sym]) => (grps[name].symbol = sym),
   );
 }
 
