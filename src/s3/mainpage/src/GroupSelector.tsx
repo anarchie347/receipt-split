@@ -37,7 +37,7 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
       const memberShares = Object.fromEntries(
         membersArr.map((x) => [
           x.split(":")[0].trim(),
-          Number.parseInt(x.split(":")[1]),
+          Number.parseInt(x.split(":")[1] ?? 1),
         ]),
       );
       const grpData: GroupData = {
