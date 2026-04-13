@@ -1,9 +1,13 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { PhotoUploadPage } from "./PhotoUploadPage";
 import { SplitterPage, type Groups, type ItemOnly } from "./SplitterPage";
 
 function App() {
+  useEffect(() => {
+    fetch("/api/wake"); // warm up the lambda backend
+  }, []);
+
   const [page, setPage] = useState<Page>("PhotoUpload");
   const itemsRef = useRef<ItemOnly[]>([]);
   return (
@@ -12,7 +16,7 @@ function App() {
         {page == "PhotoUpload" ? (
           <PhotoUploadPage
             onSubmit={async (b64) => {
-              const resp = await fetch("/api/abcd", {
+              const resp = await fetch("/api/process", {
                 method: "POST",
                 body: b64,
               });

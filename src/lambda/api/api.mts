@@ -66,21 +66,27 @@ function extract(data: any) {
   return itemsMinimal;
 }
 
-//const resp = await mock_sendImgToApi(tmp_getImgBase64());
-// fs.writeFileSync(
-//   "sampleresponses/sample1.2.json",
-//   JSON.stringify(resp, null, 2),
-// );
-//console.log(extract(resp));
-
-export async function handler(event: any) {
-  console.log("INVOKED");
-  const b64 = event.body;
-  const apiResp = mock_sendImgToApi(b64);
-  console.log(apiResp);
+async function process_image(base64: string) {
+  const apiResp = mock_sendImgToApi(base64);
   const extracted = extract(apiResp);
   return {
     statusCode: 200,
     body: JSON.stringify(extracted),
   };
+}
+
+export async function handler(event: any) {
+  switch (event.requestContext.http.path) {
+    case "/api/wake":
+      console.log("Woken");
+      return {
+        statusCode: 200,
+      };
+    case "/api/process":
+      return process_image(event.body);
+    default:
+      return {
+        statusCode: 404,
+      };
+  }
 }
