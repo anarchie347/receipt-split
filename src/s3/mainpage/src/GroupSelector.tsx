@@ -1,9 +1,10 @@
 import { Users } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { GroupData, Groups, Shares } from "./SplitterPage";
 
 export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
   const addGrpRef = useRef<HTMLInputElement>(null);
+  const [copyBtnText, setCopyBtnText] = useState("Copy Config");
 
   useEffect(() => {
     const queryStr = window.location.search;
@@ -54,6 +55,16 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
     }
   };
 
+  const handleCopyConfig = () => {
+    const config = JSON.stringify(groups);
+    const url = new URL(window.location.href);
+    url.searchParams.set("groups", config);
+    const newUrl = url.toString();
+    navigator.clipboard.writeText(newUrl);
+    setCopyBtnText("Copied!");
+    setTimeout(() => setCopyBtnText("Copy Config"), 1200);
+  };
+
   const removeGroup = (gn: string) => {
     const newGroups = { ...groups };
     delete newGroups[gn];
@@ -91,6 +102,12 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
           ref={addGrpRef}
         />
       </div>
+      <button
+        className="text-zinc-200 text-center bg-indigo-800 rounded-2xl mx-auto px-5 my-1 py-0.5 flex opacity-90 bg-linear-to-r from-indigo-600 to-indigo-800 transform transition duration-100 hover:scale-110 hover:shadow-2xl ease-out hover:-translate-y-0.5 cursor-pointer"
+        onClick={handleCopyConfig}
+      >
+        {copyBtnText}
+      </button>
       <div className=" text-zinc-200 opacity-50 text-center">
         Click a group to remove
         <br></br>
