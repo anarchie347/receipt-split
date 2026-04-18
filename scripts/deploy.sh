@@ -39,23 +39,23 @@ cd ..
 
 
 # build mainpage
+output "Building mainpage"
 cd src/s3/mainpage
 mainpageHash=$(find dist -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum)
 npm run build
 newMainpageHash=$(find dist -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum)
 cd ../../..
-output "Built mainpage"
 
 # build api
+output "Building api"
 cd src/lambda/api
 npm run build
 cd ../../..
-output "Built api"
 
 # terraform
+output "Deploying with Terraform"
 cd deployment
 terraform apply -auto-approve
-output "Deployed with Terraform"
 
 # create a cache invalidation if mainpage (contents of S3) have changed
 if [ "$mainpageHash" != "$newMainpageHash" ]; then
