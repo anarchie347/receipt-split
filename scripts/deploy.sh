@@ -42,6 +42,7 @@ cd ..
 output "Building mainpage"
 cd src/s3/mainpage
 mainpageHash=$(find dist -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum)
+npm ci
 npm run build
 newMainpageHash=$(find dist -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum)
 cd ../../..
@@ -49,12 +50,15 @@ cd ../../..
 # build api
 output "Building api"
 cd src/lambda/api
+npm ci
 npm run build
 cd ../../..
 
 # terraform
-output "Deploying with Terraform"
+output "Initialising Terraform"
 cd deployment
+terraform init
+output "Deploying with Terraform"
 terraform apply -auto-approve
 
 # create a cache invalidation if mainpage (contents of S3) have changed
