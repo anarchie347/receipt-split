@@ -50,8 +50,8 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
       fixSymbols(newGroups);
       setGroups(newGroups);
       addGrpRef.current.value = "";
-    } catch (err) {
-      alert(err);
+    } catch {
+      alert("Error parsing string");
     }
   };
 
