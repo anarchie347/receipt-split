@@ -1,6 +1,6 @@
-# Reciept Splitter
+# Receipt Splitter
 
-A simple web app to ease with splitting the costs of a reciept between people.
+A simple web app to ease with splitting the costs of a receipt between people.
 
 All deployed on AWS Cloudfront,S3 and Lambda
 
