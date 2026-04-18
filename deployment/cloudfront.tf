@@ -69,3 +69,6 @@ resource "aws_cloudfront_distribution" "main" {
 output "url" {
   value = aws_cloudfront_distribution.main.domain_name
 }
+output "cloudfront_id" {
+  value = aws_cloudfront_distribution.main.id
+}
