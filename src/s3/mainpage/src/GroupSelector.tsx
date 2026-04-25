@@ -87,7 +87,7 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
           </span>
         </div>
       ))}
-      <div className=" text-zinc-200 text-center bg-indigo-800 rounded-2xl mx-auto px-5 my-1 py-0.5 flex opacity-90 bg-linear-to-r from-indigo-600 to-indigo-800 transform transition duration-100 hover:scale-110 hover:shadow-2xl ease-out hover:-translate-y-0.5 cursor-pointer">
+      <div className=" text-zinc-200 text-center rounded-2xl mx-auto px-5 my-1 py-0.5 flex opacity-90 bg-linear-to-r from-fuchsia-600 to-fuchsia-800 transform transition duration-100 hover:scale-110 hover:shadow-2xl ease-out hover:-translate-y-0.5 cursor-pointer">
         <input
           className=" text-shadow-zinc-200 outline-0"
           placeholder="Add..."
@@ -97,7 +97,7 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
         />
       </div>
       <button
-        className="text-zinc-200 text-center bg-indigo-800 rounded-2xl mx-auto px-5 my-1 py-0.5 flex opacity-90 bg-linear-to-r from-indigo-600 to-indigo-800 transform transition duration-100 hover:scale-110 hover:shadow-2xl ease-out hover:-translate-y-0.5 cursor-pointer"
+        className="text-zinc-200 text-center rounded-2xl mx-auto px-5 my-1 py-0.5 flex opacity-90 bg-linear-to-r from-indigo-700 to-indigo-900 transform transition duration-100 hover:scale-110 hover:shadow-2xl ease-out hover:-translate-y-0.5 cursor-pointer"
         onClick={handleCopyConfig}
       >
         {copyBtnText}
