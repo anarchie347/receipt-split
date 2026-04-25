@@ -51,14 +51,15 @@ function extract(data: any) {
   const items: any[] = data.line_items;
   const itemsMinimal = items
     .filter(({ total }) => !!total) // only take things with price
-    .map(({ description, total }) => ({
+    .map(({ description, total, discount }) => ({
       name: description as string,
-      price: total as number,
+      price: (total as number) + (discount as number),
     }));
 
   // check total = sum(prices)
   const total: number = data.total.value;
   const addedPrices = itemsMinimal.reduce((t, i) => t + i.price, 0);
+
   if (Math.abs(total - addedPrices) > 0.01)
     //account for float pt arithmetic errors
     throw `Reciept reading error: prices did not add up to total. Prices : ${addedPrices}, Total: ${total}`;
