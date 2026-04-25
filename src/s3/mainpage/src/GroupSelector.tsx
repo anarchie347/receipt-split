@@ -34,13 +34,7 @@ export function GroupSelector({ groups, setGroups }: GroupSelectorProps) {
       const [grpNameUntrimmed, ...rest] = input.split(":");
       const grpName = grpNameUntrimmed.trim();
       const membersStr = rest.join(":");
-      const membersArr = membersStr.split(",");
-      const memberShares = Object.fromEntries(
-        membersArr.map((x) => [
-          x.split(":")[0].trim(),
-          Number.parseInt(x.split(":")[1] ?? 1),
-        ]),
-      );
+      const memberShares = extractMemberShares(membersStr, grpName);
       const grpData: GroupData = {
         symbol: "placeholder",
         memberShares,
@@ -154,6 +148,21 @@ function fixSymbols(grps: Groups) {
   Object.entries(nameSymbolMap).forEach(
     ([name, sym]) => (grps[name].symbol = sym),
   );
+}
+
+// deals with possile empty members string (single person group)
+function extractMemberShares(membersStr: string, groupName: string): Shares {
+  if (membersStr.trim() == "") {
+    return Object.fromEntries([[groupName, 1]]);
+  }
+  const membersArr = membersStr.split(",");
+  const memberShares = Object.fromEntries(
+    membersArr.map((x) => [
+      x.split(":")[0].trim(),
+      Number.parseInt(x.split(":")[1] ?? 1),
+    ]),
+  );
+  return memberShares;
 }
 
 export type GroupSelectorProps = {
