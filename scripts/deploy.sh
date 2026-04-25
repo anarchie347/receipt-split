@@ -64,7 +64,7 @@ terraform apply -auto-approve
 # create a cache invalidation if mainpage (contents of S3) have changed
 if [ "$mainpageHash" != "$newMainpageHash" ]; then
     distID=$(terraform output -raw cloudfront_id)
-    say "Changes detected to mainpage, invalidating Cloudfront Cache"
+    output "Changes detected to mainpage, invalidating Cloudfront Cache"
     aws cloudfront create-invalidation --distribution-id $distID --paths "/*"
 fi
 
