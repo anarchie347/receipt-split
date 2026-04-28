@@ -32,6 +32,11 @@ async function sendImgToApi(base64Img: string) {
 
   const resp = await fetch(url, options);
 
+  if (resp.status !== 200) {
+    console.error(`Veryfi response: ${await resp.json()}`);
+    throw "Error in request to Veryfi, ";
+  }
+
   return await resp.json();
 }
 
@@ -84,6 +89,7 @@ export async function handler(event: any) {
         statusCode: 200,
       };
     case "/api/process":
+      console.log("Processing");
       return process_image(event.body);
     default:
       return {
