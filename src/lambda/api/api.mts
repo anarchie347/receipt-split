@@ -31,10 +31,10 @@ async function sendImgToApi(base64Img: string) {
   };
 
   const resp = await fetch(url, options);
-
-  if (resp.status !== 200) {
-    console.error(`Veryfi response: ${await resp.json()}`);
-    throw "Error in request to Veryfi, ";
+  if (!resp.ok) {
+    console.log(`Veri`);
+    console.error(`Veryfi response body: ${await resp.text()}`);
+    throw `Error in request to Veryfi, returned ${resp.status}`;
   }
 
   return await resp.json();

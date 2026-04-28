@@ -21,7 +21,7 @@ function App() {
                 method: "POST",
                 body: b64,
               });
-              if (resp.status !== 200) {
+              if (!resp.ok) {
                 alert(
                   `Sorry there was an error, please try again.\n Error: ${resp.status}`,
                 );
