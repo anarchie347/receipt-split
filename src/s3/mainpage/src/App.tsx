@@ -21,8 +21,13 @@ function App() {
                 method: "POST",
                 body: b64,
               });
-              console.log("Resp received");
-              console.log(resp);
+              if (resp.status !== 200) {
+                alert(
+                  `Sorry there was an error, please try again.\n Error: ${resp.status}`,
+                );
+                return;
+              }
+
               itemsRef.current = await resp.json();
               setPage("Split");
             }}
