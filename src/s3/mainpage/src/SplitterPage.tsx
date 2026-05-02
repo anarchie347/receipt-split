@@ -119,6 +119,7 @@ export type SplitterPageProps = {
 export type ItemOnly = {
   name: string;
   price: number;
+  unsure: boolean;
 };
 export type ItemSplit = ItemOnly & { shares: Shares };
 

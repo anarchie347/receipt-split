@@ -23,8 +23,9 @@ export function SplitterCard({
     setLocalCounts(zeroed);
     adjustShares(zeroed);
   };
+  const colour = itemOnly.unsure ? "bg-zinc-950" : "bg-zinc-700";
   return (
-    <div className=" p-2 bg-zinc-700 rounded-xl">
+    <div className={` p-2 ${colour} rounded-xl`}>
       <div className="flex items-center">
         <div className="flex-1 text-left pl-5 text-zinc-200 text-xl">
           {itemOnly.name}

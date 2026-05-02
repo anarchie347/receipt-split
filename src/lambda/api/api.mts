@@ -52,19 +52,40 @@ function tmp_getImgBase64() {
 }
 
 function singleItemMinimise(item: any) {
-  // this is generally a process of return item.total + item.discount, but there are edge cases
-
-  // any entries in 'discount' category have total = discount, so adding them double-counts the discount
-  //const discount = item.type === "discount" ? 0 : (item.discount as number);
+  // this should be a simple case of item.total + item.discount
+  // however sometimes if there are mutliple discounts, only one is included in 'discount', and the other is only present in the 'text' field
 
   //sometimes an item with 2 discounts isnt read properly, need to examine .text to check
   const regex = /\t(-?\d+\.?\d\d)/g; // captures \t followed by +ve or -ve number with 2 decimal digits
   const nums = [...item.text.matchAll(regex)].map((m) => parseFloat(m[1])); // extracts numbres from capturing groups
-  const price = nums.reduce((t, i) => t + i, 0);
+  const priceFromText = nums.reduce((t, i) => t + i, 0);
 
+  // for type=discount, .discount = .total, so adding them doubles the discount
+  const discount = item.type === "discount" ? 0 : item.discount;
+  const priceFromTotal = ((item.total as number) + discount) as number;
+
+  let price;
+  let unsure = false;
+  if (nums.length > 2) {
+    // multiple discounts, total and discount fields not reliable
+    price = priceFromText;
+    unsure = true;
+  } else {
+    // single or no discount, total and discount field reliable
+    price = priceFromTotal;
+    // if they dont match, report unsure
+    unsure = !approxEq(priceFromText, priceFromTotal);
+  }
+
+  if (unsure) {
+    console.warn(
+      `Unsure on item ${item.description}. nums: ${JSON.stringify(nums)}, priceFromText: ${priceFromText}, priceFromTotal: ${priceFromTotal}, item: ${JSON.stringify(item, null, 2)}`,
+    );
+  }
   return {
     name: item.description as string,
     price: Math.round(price * 100) / 100,
+    unsure,
   };
 }
 function extract(data: any) {
@@ -78,7 +99,7 @@ function extract(data: any) {
   const total: number = data.total.value;
   const addedPrices = itemsMinimal.reduce((t, i) => t + i.price, 0);
 
-  if (Math.abs(total - addedPrices) > 0.01) {
+  if (!approxEq(total, addedPrices)) {
     console.error(JSON.stringify(data, null, 2));
     //account for float pt arithmetic errors
     throw `Reciept reading error: prices did not add up to total. Prices : ${addedPrices}, Total: ${total}`;
@@ -111,4 +132,8 @@ export async function handler(event: any) {
         statusCode: 404,
       };
   }
+}
+
+function approxEq(x: number, y: number) {
+  return Math.abs(x - y) < 0.01;
 }
