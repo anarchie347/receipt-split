@@ -19,7 +19,7 @@ resource "aws_cloudfront_distribution" "main" {
     origin_id = local.mainpage_origin_id
     origin_path = "/public"
   }
-
+  
   origin {
     domain_name = replace(aws_apigatewayv2_api.api.api_endpoint, "/^https?://([^/]*).*/", "$1") //removec http(s):// from url to get domain 
     origin_id = local.api_origin_id
@@ -63,6 +63,10 @@ resource "aws_cloudfront_distribution" "main" {
 
   viewer_certificate {
     cloudfront_default_certificate = true
+  }
+
+  lifecycle {
+    ignore_changes = [ web_acl_id ]
   }
 }
 
