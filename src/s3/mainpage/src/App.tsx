@@ -23,7 +23,7 @@ function App() {
               });
               if (!resp.ok) {
                 alert(
-                  `Sorry there was an error, please try again.\n Error: ${resp.status}`,
+                  `Sorry there was an error, please try again.\nIf this error persists, please report.\nError: ${resp.status}`,
                 );
                 return;
               }
@@ -50,15 +50,3 @@ function App() {
 export default App;
 
 type Page = "PhotoUpload" | "Split";
-
-// const TEST_GROUPS: Groups = {
-//   Joe: { symbol: "J", memberShares: { Joe: 1 } },
-//   Pete: { symbol: "Pe", memberShares: { Pete: 1 } },
-//   Phil: { symbol: "Ph", memberShares: { Phil: 1 } },
-//   Steve: { symbol: "S", memberShares: { Steve: 1 } },
-//   Group: { symbol: "G", memberShares: { Joe: 2, Pete: 1, Phil: 1, Steve: 1 } },
-//   Tobi: { symbol: "T", memberShares: { Tobi: 1 } },
-//   Bob: { symbol: "B", memberShares: { Bob: 1 } },
-// };
-
-// j,n,a,g,m,e,b
