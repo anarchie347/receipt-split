@@ -27,12 +27,13 @@ function App() {
                 );
                 return;
               }
-              itemsRef.current = await resp.json();
-              // if (itemsRef.current.some((i) => i.unsure)) {
-              //   alert(
-              //     "Struggled to decipher some items, please double check the prices of any dark coloured items on the next page. If they are wrong, edit the price (future feature) or re-scan the receipt.\nIf the problem persists, please report",
-              //   );
-              // }
+              const data = await resp.json();
+              if (data.unsure) {
+                alert(
+                  "Could not read prices properly. Sum of item prices did not match stated total.\nPlease double check prices and adjust if needed",
+                );
+              }
+              itemsRef.current = data.items;
               setPage("Split");
             }}
             groups={groups}
