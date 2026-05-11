@@ -16,6 +16,17 @@ export function SplitterPage({ items, groups }: SplitterPageProps) {
   );
   const [debts, setDebts] = useState<{ [person: string]: number }>({});
 
+  const modifyItemFuncFactory = function <K extends keyof ItemSplit>(
+    index: number,
+    field: K,
+  ) {
+    return (x: ItemSplit[K]) => {
+      itemsSplit.current[index][field] = x;
+      const newDebts = processSplit(itemsSplit.current, groups);
+      setDebts(newDebts);
+    };
+  };
+
   return (
     <div>
       <div className=" p-1">
@@ -24,11 +35,8 @@ export function SplitterPage({ items, groups }: SplitterPageProps) {
             <SplitterCard
               itemOnly={itemOnly}
               groups={groups}
-              adjustShares={(s) => {
-                itemsSplit.current[index].shares = s;
-                const newDebts = processSplit(itemsSplit.current, groups);
-                setDebts(newDebts);
-              }}
+              adjustShares={modifyItemFuncFactory(index, "shares")}
+              adjustPrice={modifyItemFuncFactory(index, "price")}
               key={index}
             />
             {index < items.length - 1 && <SplitterCardDivider />}
@@ -119,7 +127,6 @@ export type SplitterPageProps = {
 export type ItemOnly = {
   name: string;
   price: number;
-  unsure: boolean;
 };
 export type ItemSplit = ItemOnly & { shares: Shares };
 

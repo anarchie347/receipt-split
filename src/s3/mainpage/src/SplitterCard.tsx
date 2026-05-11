@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { PriceInput } from "./PriceInput";
 import type { Groups, ItemOnly, Shares } from "./SplitterPage";
 import { objMap, objMapVals } from "./utils";
 
@@ -6,6 +7,7 @@ export function SplitterCard({
   itemOnly,
   groups,
   adjustShares,
+  adjustPrice,
 }: SplitterRowProps) {
   const [localCounts, setLocalCounts] = useState<Shares>(
     objMap(groups, (gn, _) => [gn, 0]),
@@ -23,15 +25,15 @@ export function SplitterCard({
     setLocalCounts(zeroed);
     adjustShares(zeroed);
   };
-  const colour = itemOnly.unsure ? "bg-zinc-950" : "bg-zinc-700";
   return (
-    <div className={` p-2 ${colour} rounded-xl`}>
+    <div className=" p-2 bg-zinc-700 rounded-xl">
       <div className="flex items-center">
         <div className="flex-1 text-left pl-5 text-zinc-200 text-xl">
           {itemOnly.name}
         </div>
         <div className="flex-1 text-right pr-5 text-zinc-200">
-          £{itemOnly.price}
+          {/* £{itemOnly.price} */}
+          <PriceInput initialPrice={itemOnly.price} setPrice={adjustPrice} />
         </div>
       </div>
       <div className="flex gap-2 p-1 content-center align-middle justify-center">
@@ -83,6 +85,7 @@ export type SplitterRowProps = {
   itemOnly: ItemOnly;
   groups: Groups;
   adjustShares: (s: Shares) => void;
+  adjustPrice: (p: number) => void;
 };
 
 type SplitButtonProps = {

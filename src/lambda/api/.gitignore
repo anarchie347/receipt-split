@@ -1,2 +1,5 @@
 *.mjs
 *.zip
+
+dummyapi.mjs
+dummyresp.json
