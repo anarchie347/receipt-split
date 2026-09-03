@@ -1,5 +1,7 @@
 # Receipt Splitter
 
+Note: This is getting superseded by a fully fledged expense tracking and splitting app: [Opensplit](https://github.com/anarchie347/opensplit)
+
 A simple web app to ease with splitting the costs of a receipt between people.
 
 All deployed on AWS Cloudfront,S3 and Lambda.
